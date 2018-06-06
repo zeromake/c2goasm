@@ -1,31 +1,30 @@
-	.section	__TEXT,__text,regular,pure_instructions
-	.macosx_version_min 10, 11
+	.file	"MaddConstant.cpp"
 	.intel_syntax noprefix
-	.section	__TEXT,__const
-	.align	5
-LCPI0_0:
-	.long	1065353216              ## float 1.000000e+00
-	.long	1073741824              ## float 2.000000e+00
-	.long	1077936128              ## float 3.000000e+00
-	.long	1082130432              ## float 4.000000e+00
-	.long	1084227584              ## float 5.000000e+00
-	.long	1086324736              ## float 6.000000e+00
-	.long	1088421888              ## float 7.000000e+00
-	.long	1090519040              ## float 8.000000e+00
-	.section	__TEXT,__text,regular,pure_instructions
-	.globl	__Z12MaddConstantPfS_S_
-	.align	4, 0x90
-__Z12MaddConstantPfS_S_:                ## @_Z12MaddConstantPfS_S_
-## BB#0:
-	push	rbp
-	mov	rbp, rsp
-	vmovups	ymm0, ymmword ptr [rdi]
-	vmovups	ymm1, ymmword ptr [rsi]
-	vfmadd213ps	ymm1, ymm0, ymmword ptr [rip + LCPI0_0]
-	vmovups	ymmword ptr [rdx], ymm1
-	pop	rbp
+	.text
+	.p2align 4,,15
+	.globl	_Z12MaddConstantPfS_S_
+	.type	_Z12MaddConstantPfS_S_, @function
+_Z12MaddConstantPfS_S_:
+	vmovaps	ymm0, YMMWORD PTR [rdi]
+	vmovaps	ymm1, YMMWORD PTR _ZL1a[rip]
+	vfmadd132ps	ymm0, ymm1, YMMWORD PTR [rsi]
+	vmovups	XMMWORD PTR [rdx], xmm0
+	vextractf128	XMMWORD PTR 16[rdx], ymm0, 0x1
 	vzeroupper
 	ret
-
-
-.subsections_via_symbols
+	.size	_Z12MaddConstantPfS_S_, .-_Z12MaddConstantPfS_S_
+	.section	.rodata
+	.align 32
+	.type	_ZL1a, @object
+	.size	_ZL1a, 32
+_ZL1a:
+	.long	1065353216
+	.long	1073741824
+	.long	1077936128
+	.long	1082130432
+	.long	1084227584
+	.long	1086324736
+	.long	1088421888
+	.long	1090519040
+	.ident	"GCC: (GNU) 8.1.0"
+	.section	.note.GNU-stack,"",@progbits

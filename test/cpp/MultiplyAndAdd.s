@@ -1,19 +1,17 @@
-	.section	__TEXT,__text,regular,pure_instructions
-	.macosx_version_min 10, 11
+	.file	"MultiplyAndAdd.cpp"
 	.intel_syntax noprefix
-	.globl	__Z14MultiplyAndAddPfS_S_S_
-	.align	4, 0x90
-__Z14MultiplyAndAddPfS_S_S_:            ## @_Z14MultiplyAndAddPfS_S_S_
-## BB#0:
-	push	rbp
-	mov	rbp, rsp
-	vmovups	ymm0, ymmword ptr [rdi]
-	vmovups	ymm1, ymmword ptr [rsi]
-	vfmadd213ps	ymm1, ymm0, ymmword ptr [rdx]
-	vmovups	ymmword ptr [rcx], ymm1
-	pop	rbp
+	.text
+	.p2align 4,,15
+	.globl	_Z14MultiplyAndAddPfS_S_S_
+	.type	_Z14MultiplyAndAddPfS_S_S_, @function
+_Z14MultiplyAndAddPfS_S_S_:
+	vmovaps	ymm0, YMMWORD PTR [rdi]
+	vmovaps	ymm1, YMMWORD PTR [rdx]
+	vfmadd132ps	ymm0, ymm1, YMMWORD PTR [rsi]
+	vmovups	XMMWORD PTR [rcx], xmm0
+	vextractf128	XMMWORD PTR 16[rcx], ymm0, 0x1
 	vzeroupper
 	ret
-
-
-.subsections_via_symbols
+	.size	_Z14MultiplyAndAddPfS_S_S_, .-_Z14MultiplyAndAddPfS_S_S_
+	.ident	"GCC: (GNU) 8.1.0"
+	.section	.note.GNU-stack,"",@progbits

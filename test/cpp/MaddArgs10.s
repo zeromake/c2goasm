@@ -1,31 +1,30 @@
-	.section	__TEXT,__text,regular,pure_instructions
-	.macosx_version_min 10, 11
+	.file	"MaddArgs10.cpp"
 	.intel_syntax noprefix
-	.globl	__Z10MaddArgs10PfS_S_S_S_S_S_S_S_S_
-	.align	4, 0x90
-__Z10MaddArgs10PfS_S_S_S_S_S_S_S_S_:    ## @_Z10MaddArgs10PfS_S_S_S_S_S_S_S_S_
-## BB#0:
+	.text
+	.p2align 4,,15
+	.globl	_Z10MaddArgs10PfS_S_S_S_S_S_S_S_S_
+	.type	_Z10MaddArgs10PfS_S_S_S_S_S_S_S_S_, @function
+_Z10MaddArgs10PfS_S_S_S_S_S_S_S_S_:
+	vmovaps	ymm0, YMMWORD PTR [rdi]
+	vmovaps	ymm2, YMMWORD PTR [r8]
 	push	rbp
+	vmovaps	ymm1, YMMWORD PTR [rdx]
+	vfmadd132ps	ymm0, ymm1, YMMWORD PTR [rsi]
+	vfmadd132ps	ymm0, ymm2, YMMWORD PTR [rcx]
 	mov	rbp, rsp
-	push	rbx
-	mov	r10, qword ptr [rbp + 40]
-	mov	r11, qword ptr [rbp + 32]
-	mov	rax, qword ptr [rbp + 16]
-	mov	rbx, qword ptr [rbp + 24]
-	vmovups	ymm0, ymmword ptr [rdi]
-	vmovups	ymm1, ymmword ptr [rsi]
-	vmovups	ymm2, ymmword ptr [rcx]
-	vmovups	ymm3, ymmword ptr [r9]
-	vmovups	ymm4, ymmword ptr [rbx]
-	vfmadd213ps	ymm1, ymm0, ymmword ptr [rdx]
-	vfmadd213ps	ymm1, ymm2, ymmword ptr [r8]
-	vfmadd213ps	ymm1, ymm3, ymmword ptr [rax]
-	vfmadd213ps	ymm1, ymm4, ymmword ptr [r11]
-	vmovups	ymmword ptr [r10], ymm1
-	pop	rbx
-	pop	rbp
+	mov	rdx, QWORD PTR 16[rbp]
+	mov	rcx, QWORD PTR 24[rbp]
+	mov	rax, QWORD PTR 40[rbp]
+	vmovaps	ymm3, YMMWORD PTR [rdx]
+	mov	rdx, QWORD PTR 32[rbp]
+	vfmadd132ps	ymm0, ymm3, YMMWORD PTR [r9]
+	vmovaps	ymm4, YMMWORD PTR [rdx]
+	vfmadd132ps	ymm0, ymm4, YMMWORD PTR [rcx]
+	vmovups	XMMWORD PTR [rax], xmm0
+	vextractf128	XMMWORD PTR 16[rax], ymm0, 0x1
 	vzeroupper
+	pop	rbp
 	ret
-
-
-.subsections_via_symbols
+	.size	_Z10MaddArgs10PfS_S_S_S_S_S_S_S_S_, .-_Z10MaddArgs10PfS_S_S_S_S_S_S_S_S_
+	.ident	"GCC: (GNU) 8.1.0"
+	.section	.note.GNU-stack,"",@progbits
